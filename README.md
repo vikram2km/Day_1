@@ -7,3 +7,5 @@ Day-1:
         Python: Basic data types, If-else statementFlow Control
         Unix: cd,cat,ls -l,
         Git: Installed git, pushed the above python file to git in visual studio
+Day-2:
+
