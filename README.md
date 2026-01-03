@@ -12,6 +12,7 @@ Day-2:
         Converting script into functions
         Adding logging (logging.info, logging.error)
         Adding main() block
+        
     Concepts Covered:   
         Python: while, for, functions
         Unix: ls -larth,head, tail
