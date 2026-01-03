@@ -1,7 +1,7 @@
 Day-1:
-    File Script.py :
+    clean_csv.py :
         This is a simple script to handle CSV files. This involves reading the CSV file, Cleaning/Removing blank rows and updateding it.
-    CSV File: Blank Row CSV
+    CSV File: Input.csv
 
     Concepts Covered:   
         Python: Basic data types, If-else statementFlow Control
