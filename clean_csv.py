@@ -1,7 +1,7 @@
 # Reading the CSV file and printing its contents       
 import csv
 csv_rows=[]
-with open('Blank Row CSV.csv', mode='r', newline='') as csvfile:
+with open('Input.csv', mode='r', newline='') as csvfile:
     csvreader = csv.reader(csvfile)
     for row in csvreader:
         csv_rows.append(row)
@@ -9,7 +9,7 @@ print(csv_rows)
 
 
 # Writing to a new CSV file with specified formatting
-with open('New Blank Row CSV.csv', mode='w', newline='') as csvfile:
+with open('Clean_CSV.csv', mode='w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for row in csv_rows:
         if len(row) !=0:
