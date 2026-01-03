@@ -8,4 +8,16 @@ Day-1:
         Unix: cd,cat,ls -l,
         Git: Installed git, pushed the above python file to git in visual studio
 Day-2:
+    clean_csv.py : Refactoring the file
+        Converting script into functions
+        Adding logging (logging.info, logging.error)
+        Adding main() block
+    Concepts Covered:   
+        Python: while, for, functions
+        Unix: ls -larth,head, tail
+        Git: git add <filename>, git add ., git --version, git push origin main,
+             git status, git blam <filename>, git commit, git rm <filename>
+        Hacker Rank: Completed 5 coding exercises
+        Installed postgreSQL
+
 
