@@ -1,0 +1,5 @@
+{
+    "input_file": "data/input.csv",
+    "output_file": "data/output.csv",
+    "log_level": "INFO"
+}

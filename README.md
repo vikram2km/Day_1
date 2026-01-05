@@ -16,7 +16,7 @@ Day-2:
         Python: while, for, functions
         Unix: ls -larth,head, tail
         Git: git add <filename>, git add ., git --version, git push origin main,
-             git status, git blam <filename>, git commit, git rm <filename>
+             git status, git blame <filename>, git commit, git rm <filename>
         Hacker Rank: Completed 5 coding exercises
         Installed postgreSQL
 
