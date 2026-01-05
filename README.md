@@ -21,7 +21,7 @@ Day-2:
         Hacker Rank: Completed 5 coding exercises
         Installed postgreSQL
 Day-3:
-    Adding Json config.jason file to convert CSV ETL to config driven.
+    Adding Json config.jason file to convert CSV ETL to config driven..
     
     Concepts Covered:  
         Creating Config file,
