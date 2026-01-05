@@ -19,5 +19,13 @@ Day-2:
              git status, git blame <filename>, git commit, git rm <filename>
         Hacker Rank: Completed 5 coding exercises
         Installed postgreSQL
+Day-3:
+    Adding Json config.jason file to convert CSV ETL to config driven.
+    
+    Concepts Covered:  
+        Creating Config file,
+        Reading Json file 
+
+
 
 
