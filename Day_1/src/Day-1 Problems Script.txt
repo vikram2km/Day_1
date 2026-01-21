@@ -1,0 +1,64 @@
+# List for general list problems
+day1_list = [5, 3, 8, 3, 9, 1, 5, 7, 2, 8]
+
+# Nested list for flattening problem
+day1_nested_list = [[1, 2, [3, 4]], [5, 6], [7, [8, 9]]]
+
+# Lists for set problems
+list_a = [1, 2, 3, 4, 5, 6, 7]
+list_b = [5, 6, 7, 8, 9]
+
+# List for dictionary frequency/grouping problems
+freq_list = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple', 'kiwi', 'kiwi', 'mango']
+
+# Lists for merging / subset problems
+list_c = [10, 20, 30, 40]
+list_d = [20, 30]
+list_e = [30, 40, 50]
+
+# Optional: integers for rotation / second largest
+numbers_list = [12, 45, 2, 67, 45, 89, 34, 67, 23]
+
+
+| Problem                  | Suggested Data                                              |
+| ------------------------ | ----------------------------------------------------------- |
+| Remove duplicates        | `day1_list` or `numbers_list`                               |
+| Find 2nd largest         | `numbers_list`                                              |
+| Reverse list             | `day1_list`                                                 |
+| Rotate list k times      | `numbers_list`                                              |
+| Flatten nested list      | `day1_nested_list`                                          |
+| Set intersection / union | `list_a`, `list_b`                                          |
+| Subset / difference      | `list_c`, `list_d`, `list_e`                                |
+| Count frequency          | `freq_list`                                                 |
+| First non-repeating      | `freq_list`                                                 |
+| Group by frequency       | `freq_list`                                                 |
+| Merge dicts              | Example: `dict1 = {'a':3, 'b':2}`, `dict2 = {'b':1, 'c':5}` |
+
+
+Problems:
+
+✅ LIST PROBLEMS
+Remove duplicates from a list
+Find the second largest number
+Reverse a list without slicing
+Rotate a list k times
+Flatten a nested list
+
+✅ SET PROBLEMS
+Find common elements between two lists
+Find elements present in only one list
+Check if one list is a subset of another
+
+✅ DICTIONARY PROBLEMS
+Count frequency of elements
+Find first non-repeating element
+Group elements by frequency
+Merge two dictionaries (sum values if keys overlap)
+⚠️ Every problem must be inside a function.
+
+ 
+
+Why is x in list slow compared to a set?
+When tuples are preferred over lists (INTERVIEW FAVORITE)
+Why sets are fast
+Why sets are perfect for deduplication and joins
