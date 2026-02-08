@@ -12,11 +12,14 @@ Day-3:
                 try / except / else / finally
                 raise vs logging.exception
        
-    Problems Solved(Same as Day-1 but by retruning each result):
+    Problems Solved:
         ✅ CSVReader using Class
         Reading the CSV File
         Printing the data
         Both done using instance methods
+
+        ✅ Move all zeros to the end (keep order).
+
 
             
                 
