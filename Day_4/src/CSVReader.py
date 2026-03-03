@@ -27,37 +27,35 @@ class Validator:
             raise ValueError('The CSV file is Empty')
         
 class CSVReader:
-    def __init__(self,filepath):
-        self._filepath=filepath
-    
-    def read(self):
+    def read(self,data_path):
         logging.info('Reading the CSV File...')
         try:
-            with open(self._filepath,'r',newline='') as file:
+            with open(data_path,'r',newline='') as file:
                 return(list(csv.reader(file)))
-        except FileNotFoundError as fe:
-            logging.exception(f'Error loading the file {self._filepath}')
+        except FileNotFoundError:
+            logging.exception(f'Error loading the file {data_path}')
             raise
 
 class Pipeline:
-    def __init__(self, reader, validator, logger):
+    def __init__(self, reader, validator, logger,data_path):
         self._reader = reader
         self._validator = validator
         self._logger = logger
+        self._datapath=data_path
 
     def run(self):
-        data = self._reader.read()
+        data = self._reader.read(self._datapath)
         validated = self._validator.validate(data)
         self._logger.log_rows(validated)
 
 
 def main():
-        filelogger=Logger()
-        reader=CSVReader(DATA_PATH)
-        validator=Validator()
+    filelogger=Logger()
+    reader=CSVReader()
+    validator=Validator()
         
-        pipeline = Pipeline(reader, validator, filelogger)
-        pipeline.run()
+    pipeline = Pipeline(reader, validator, filelogger,DATA_PATH)
+    pipeline.run()
 
 if __name__=="__main__":
     main()
