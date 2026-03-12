@@ -16,16 +16,6 @@ class BaseExtractor(ABC):
     @abstractmethod 
     def extract(self)->pd.DataFrame:
         pass
-class BaseLogger(ABC):
-    @abstractmethod
-    def log_rows(self,df:pd.DataFrame)->None:
-        pass
-  
-class ConsoleLogger(BaseLogger):
-    def log_rows(self, df:pd.DataFrame)->None:
-        logging.info("Logging Rows")
-        logging.info(df)
-    
 class CSVExtractor(BaseExtractor):
     def __init__(self, FilePath:str)->None:
         self._filepath=FilePath
@@ -39,51 +29,86 @@ class CSVExtractor(BaseExtractor):
                 raise CSVDataError("Missing required columns")
             return data
         except FileNotFoundError:
-            logging.exception(f'Unable to fetch the file from - {FILE_PATH}')
+            logging.exception(f'File not found: {FILE_PATH}')
             raise
         except Exception as e:
-            logging.exception(f'Issue while extracting the file - {e}')
+            logging.exception(f'Unexpected extraction error: {e}')
             raise
+        
+
+class BaseLogger(ABC):
+    @abstractmethod
+    def log_rows(self,df:pd.DataFrame)->None:
+        pass
+class ConsoleLogger(BaseLogger):
+    def log_rows(self, df:pd.DataFrame)->None:
+        logging.info("Pipeline Result:")
+        logging.info("\n %s",df)
+    
+
 class DataCleaner:
     @staticmethod
     def strip_spaces(df:pd.DataFrame)->pd.DataFrame:
-        logging.info('Removing leading/trailing spaces')
-        return(df.apply(lambda x:x.strip() if isinstance(x,str) else x))
+        logging.info('Stripping whitespace from string columns')
+        df=df.apply(lambda col:col.strip() if isinstance(col,str) else col)
+        return df
+    
     @staticmethod
     def remove_duplicates(df:pd.DataFrame)->pd.DataFrame:
-        logging.info('Removing Duplicates')
-        if 'id' in set(df.columns):
-            return (df.drop_duplicates(subset='id'))
-        else:
-            logging.exception('id key is missing in the CSV file')
-            raise KeyError('id key is missing in the CSV file')
+        logging.info("Removing duplicate rows")
+        if 'id' not in df.columns:
+            raise KeyError('Missing column: id')
+        before = len(df)
+        df=df.drop_duplicates('id')
+        after = len(df)
+    
+        logging.info("Duplicates removed: %s", before - after)
+        
+        return df
+    
     @staticmethod
     def fill_missing_salary(df:pd.DataFrame)->pd.DataFrame:
         logging.info('Filling Missing Salaries')
-        if 'salary' in set(df.columns):
-            df.loc[:,'salary']=df['salary'].fillna(df.groupby('department')['salary'].transform('mean'))
-            return df
-        else:
-            logging.exception('salary key is missing in the CSV file')
-            raise KeyError('salary key is missing in the CSV file')
+        if "salary" not in df.columns:
+            raise KeyError("Missing column: salary")
+
+        df["salary"] = df["salary"].fillna(
+            df.groupby("department")["salary"].transform("mean"))
+
+        return df
+        
     @staticmethod
     def fill_missing_department(df:pd.DataFrame)->pd.DataFrame:
-        logging.info('Filling Missing Departments')
+        logging.info('Filling missing departments')
         if 'department' in list(df.columns):   
-            df.loc[:,'department']=df['department'].fillna('Unknown')
+            df['department']=df['department'].fillna('Unknown')
             return df
         else:
             logging.exception('department key is missing in the CSV file')
             raise KeyError('department key is missing in the CSV file')
 
 class DataValidator:
+    REQUIRED_COLUMNS = {"id", "salary", "department"}
+    
     @staticmethod
     def validate(df:pd.DataFrame)-> int:
-        logging.info('Validating the data')
-        if (not df['salary'].hasnans and df['salary'].min()>0 and df['id'].is_unique):
-            return True
-        else:
-            return False
+        logging.info("Validating dataset")
+
+        if not DataValidator.REQUIRED_COLUMNS.issubset(df.columns):
+            raise CSVDataError("Missing required columns")
+
+        if df["salary"].isna().any():
+            raise CSVDataError("Salary still contains NULL values")
+
+        if not df["id"].is_unique:
+            raise CSVDataError("IDs are not unique")
+
+        if (df["salary"] <= 0).any():
+            raise CSVDataError("Invalid salary detected")
+
+        logging.info("Validation passed")
+
+        return True
 
     
 
@@ -103,18 +128,11 @@ class Pipeline:
             data=self._extractor.extract()
             for cleaning_steps in self._cleaners:
                 data=cleaning_steps(data)
-            validation_result=self._validator.validate(data)
-            if validation_result:
-                logging.info('Validation Complete - Result: Valid')
-                self._final_result=data.groupby('department')['salary'].mean()
-                self._logger.log_rows(self._final_result) 
-            else:
-                raise CSVDataError('Validation Complete - Result: InValid')
-        except CSVDataError:
-            logging.exception('Validation Complete. Result: InValid')
-            raise
+            self._validator.validate(data)
+            result=data.groupby('department')['salary'].mean()
+            self._logger.log_rows(result) 
         except Exception as e:
-            logging.exception(f'Encountered - {e}')
+            logging.exception(f'Pipeline failed: - {e}')
             raise
 
 def main():
